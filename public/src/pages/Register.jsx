@@ -28,7 +28,7 @@ function Register() {
     if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   const handleValidation = () => {
     const { password, confirmPassword, username, email } = values;
@@ -57,29 +57,6 @@ function Register() {
 
     return true;
   };
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   if (handleValidation()) {
-  //     const { email, username, password } = values;
-  //     const { data } = await axios.post(registerRoute, {
-  //       username,
-  //       email,
-  //       password,
-  //     });
-
-  //     if (data.status === false) {
-  //       toast.error(data.msg, toastOptions);
-  //     }
-  //     if (data.status === true) {
-  //       localStorage.setItem(
-  //         process.env.REACT_APP_LOCALHOST_KEY,
-  //         JSON.stringify(data.user)
-  //       );
-  //       navigate("/");
-  //     }
-  //   }
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
