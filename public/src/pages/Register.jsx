@@ -1,12 +1,14 @@
-import React from 'react';
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { registerRoute } from "../utils/APIRoutes";
 
 function Register() {
+    const navigate = useNavigate();
     const toastOptions = {
         position: "bottom-right",
         autoClose: 8000,
@@ -21,6 +23,12 @@ function Register() {
         password: "",
         confirmPassword: ""
     });
+
+    useEffect(() => {
+        if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+          navigate("/");
+        }
+      }, []);
 
     const handleValidation = () => {
         const { password, confirmPassword, username, email } = values;
@@ -50,11 +58,28 @@ function Register() {
         return true;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(toast, { "form value": { [event.target.name]: event.target.value } })
-        handleValidation();
-    }
+        if (handleValidation()) {
+          const { email, username, password } = values;
+          const { data } = await axios.post(registerRoute, {
+            username,
+            email,
+            password,
+          });
+    
+          if (data.status === false) {
+            toast.error(data.msg, toastOptions);
+          }
+          if (data.status === true) {
+            localStorage.setItem(
+              process.env.REACT_APP_LOCALHOST_KEY,
+              JSON.stringify(data.user)
+            );
+            navigate("/");
+          }
+        }
+      };
 
     const handleChange = (event) => {
         setvalues({ ...values, [event.target.name]: event.target.value });
@@ -62,7 +87,7 @@ function Register() {
     return (
         <>
             <FormContainer>
-                <form action="" onSubmit={(event) => handleSubmit(event)}>
+                <form action="submit" onSubmit={(event) => handleSubmit(event)}>
                     <div className="brand">
                         <img src={Logo} alt="logo" />
                         <h1>snappy</h1>
