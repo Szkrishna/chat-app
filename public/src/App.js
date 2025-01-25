@@ -11,8 +11,8 @@ export default function App() {
       <Routes>
         <Route path="/register" element={ <Register/> }></Route>
         <Route path="/login" element={ <Login/> }></Route>
-        <Route path="/" element={ <Chat/> }></Route>
         <Route path="/setAvatar" element={<SetAvatar />} />
+        <Route path="/" element={ <Chat/> }></Route>
       </Routes>
     </BrowserRouter>
   )
