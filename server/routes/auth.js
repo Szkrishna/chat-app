@@ -1,7 +1,8 @@
 const {
   register,
   login,
-  setAvatar
+  setAvatar,
+  getAllUsers
 } = require("../controllers/userController");
 
 const router = require("express").Router();

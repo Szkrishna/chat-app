@@ -7,12 +7,18 @@ export default function Contacts({ contacts, changeChat }) {
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
-  useEffect(async () => {
-    const data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    setCurrentUserName(data.username);
-    setCurrentUserImage(data.avatarImage);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      if (data) {
+        setCurrentUserName(data.username);
+        setCurrentUserImage(data.avatarImage);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   const changeCurrentChat = (index, contact) => {
