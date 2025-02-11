@@ -39,6 +39,22 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
+module.exports.resetPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.json({ msg: "Email is not registered. Try resetting the password for a registered email.", status: false });
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    // if (!isPasswordValid)
+    //   return res.json({ msg: "Incorrect Username or Password", status: false });
+    delete user.password;
+    return res.json({ status: true, user });
+  } catch (ex) {
+    next(ex);
+  }
+};
+
 module.exports.setAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
@@ -55,17 +71,6 @@ module.exports.setAvatar = async (req, res, next) => {
       isSet: userData.isAvatarImageSet,
       image: userData.avatarImage,
     });
-  } catch (ex) {
-    next(ex);
-  }
-};
-
-module.exports.fetchAvatars = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = await axios.get(`https://api.multiavatar.com/${id}`);
-    res.setHeader("Content-Type", "image/svg+xml"); // Ensure correct response type
-    res.send(response.data);
   } catch (ex) {
     next(ex);
   }

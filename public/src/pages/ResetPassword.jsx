@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute } from "../utils/APIRoutes";
+import { resetPasswordRoute } from "../utils/APIRoutes";
 
-export default function Login() {
+export default function ResetPassword() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ username: "", password: "" });
+  const [values, setValues] = useState({ email: "" });
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -29,12 +29,9 @@ export default function Login() {
   };
 
   const validateForm = () => {
-    const { username, password } = values;
-    if (username === "") {
-      toast.error("Email and Password is required.", toastOptions);
-      return false;
-    } else if (password === "") {
-      toast.error("Email and Password is required.", toastOptions);
+    const { email } = values;
+    if (email === "") {
+      toast.error("Email is not registered.", toastOptions);
       return false;
     }
     return true;
@@ -43,10 +40,9 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      const { username, password } = values;
-      const { data } = await axios.post(loginRoute, {
-        username,
-        password,
+      const { email } = values;
+      const { data } = await axios.post(resetPasswordRoute, {
+        email
       });
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
@@ -56,7 +52,7 @@ export default function Login() {
           process.env.REACT_APP_LOCALHOST_KEY,
           JSON.stringify(data.user)
         );
-        navigate("/");
+        navigate("/login");
       }
     }
   };
@@ -70,23 +66,12 @@ export default function Login() {
             <h1>snappy</h1>
           </div>
           <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            onChange={(e) => handleChange(e)}
-            min="3"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
+            type="email"
+            placeholder="Email"
+            name="email"
             onChange={(e) => handleChange(e)}
           />
-          <Link to="/reset-password" className="forgot-password">Forgot Password</Link>
-          <button type="submit">Log In</button>
-          <span>
-            Don't have an account ? <Link to="/register">Create One.</Link>
-          </span>
+          <button type="submit">Reset Password</button>
         </form>
       </FormContainer>
       <ToastContainer />
@@ -103,6 +88,7 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+
   .brand {
     display: flex;
     align-items: center;
@@ -123,8 +109,9 @@ const FormContainer = styled.div`
     gap: 2rem;
     background-color: #00000076;
     border-radius: 2rem;
-    padding: 5rem;
+    padding: 3rem 5rem;
   }
+
   input {
     background-color: transparent;
     padding: 1rem;
@@ -138,6 +125,7 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
+
   button {
     background-color: #4e0eff;
     color: white;
@@ -152,6 +140,7 @@ const FormContainer = styled.div`
       background-color: #4e0eff;
     }
   }
+
   span {
     color: white;
     text-transform: uppercase;
@@ -160,20 +149,5 @@ const FormContainer = styled.div`
       text-decoration: none;
       font-weight: bold;
     }
-  }
-
-  .forgot-password {
-    color: #4e0eff;
-    font-weight: bold;
-    text-decoration: none;
-    transition: color 0.1s ease-in-out;
-    display: flex;
-    justify-content: end;
-    line-height: 0px;
-  }
-
-  .forgot-password:hover {
-    color:rgb(232, 51, 1);
-    // text-decoration: underline;
   }
 `;

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import styled from "styled-components";

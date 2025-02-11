@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
 import Chat from './pages/Chat';
 import SetAvatar from "./components/SetAvatar";
 
@@ -11,6 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/register" element={ <Register/> }></Route>
         <Route path="/login" element={ <Login/> }></Route>
+        <Route path="/reset-password" element={ <ResetPassword/> }></Route>
         <Route path="/setAvatar" element={<SetAvatar />} />
         <Route path="/" element={ <Chat/> }></Route>
       </Routes>

@@ -142,19 +142,21 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+
   .brand {
     display: flex;
     align-items: center;
     gap: 1rem;
     justify-content: center;
     img {
-      height: 5rem;
+      height: 4rem;
     }
     h1 {
       color: white;
       text-transform: uppercase;
     }
   }
+
   form {
     display: flex;
     flex-direction: column;
@@ -163,6 +165,7 @@ const FormContainer = styled.div`
     border-radius: 2rem;
     padding: 3rem 5rem;
   }
+
   input {
     background-color: transparent;
     padding: 1rem;
@@ -176,6 +179,7 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
+
   button {
     background-color: #4e0eff;
     color: white;
@@ -190,6 +194,7 @@ const FormContainer = styled.div`
       background-color: #4e0eff;
     }
   }
+    
   span {
     color: white;
     text-transform: uppercase;
