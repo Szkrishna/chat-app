@@ -12,7 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/register" element={ <Register/> }></Route>
         <Route path="/login" element={ <Login/> }></Route>
-        <Route path="/reset-password" element={ <ResetPassword/> }></Route>
+        <Route path="/resetPassword" element={ <ResetPassword/> }></Route>
         <Route path="/setAvatar" element={<SetAvatar />} />
         <Route path="/" element={ <Chat/> }></Route>
       </Routes>

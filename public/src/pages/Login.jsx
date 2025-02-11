@@ -82,7 +82,7 @@ export default function Login() {
             name="password"
             onChange={(e) => handleChange(e)}
           />
-          <Link to="/reset-password" className="forgot-password">Forgot Password</Link>
+          <Link to="/reset-password" className="forgotPassword">Forgot Password</Link>
           <button type="submit">Log In</button>
           <span>
             Don't have an account ? <Link to="/register">Create One.</Link>

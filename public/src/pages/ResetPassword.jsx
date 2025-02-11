@@ -1,58 +1,86 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { resetPasswordRoute } from "../utils/APIRoutes";
+import { verifyEmailRoute, resetPasswordRoute } from "../utils/APIRoutes";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ email: "" });
+
+  const [values, setValues] = useState({ email: "", password: "", confirmPassword: "" });
+  const [isResetting, setIsResetting] = useState(false);
+
   const toastOptions = {
     position: "bottom-right",
-    autoClose: 8000,
+    autoClose: 5000,
     pauseOnHover: true,
     draggable: true,
     theme: "dark",
   };
 
-  useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/");
-    }
-  }, [navigate]);
-
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const validateForm = () => {
-    const { email } = values;
-    if (email === "") {
-      toast.error("Email is not registered.", toastOptions);
+  const validateEmail = () => {
+    if (values.email.trim() === "") {
+      toast.error("Please enter a valid email.", toastOptions);
       return false;
     }
     return true;
   };
 
-  const handleSubmit = async (event) => {
+  const validateNewPassword = () => {
+    if (values.password.trim() === "" || values.confirmPassword.trim() === "") {
+      toast.error("Password fields cannot be empty.", toastOptions);
+      return false;
+    }
+    if (values.password !== values.confirmPassword) {
+      toast.error("Passwords do not match.", toastOptions);
+      return false;
+    }
+    return true;
+  };
+
+  const handleEmailSubmit = async (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      const { email } = values;
-      const { data } = await axios.post(resetPasswordRoute, {
-        email
-      });
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions);
+    if (validateEmail()) {
+      try {
+        const { data } = await axios.post(verifyEmailRoute, { email: values.email });
+        if (!data.status) {
+          toast.error(data.msg, toastOptions);
+        } else {
+          setIsResetting(true);
+          // toast.success("Verification link sent to email!", toastOptions);
+          console.log("data ===>", data)
+        }
+      } catch (error) {
+        toast.error("Error sending request. Try again later.", toastOptions);
       }
-      if (data.status === true) {
-        localStorage.setItem(
-          process.env.REACT_APP_LOCALHOST_KEY,
-          JSON.stringify(data.user)
-        );
-        navigate("/login");
+    }
+  };
+
+  const handlePasswordSubmit = async (event) => {
+    event.preventDefault();
+    if (validateNewPassword()) {
+      try {
+        const { data } = await axios.post(resetPasswordRoute, {
+          email: values.email,
+          password: values.password,
+        });
+
+        if (!data.status) {
+          toast.error(data.msg, toastOptions);
+        } else {
+          toast.success("Password reset successful! Redirecting to login...", toastOptions);
+          setTimeout(() => navigate("/login"), 3000);
+          setValues({ email: "", password: "", confirmPassword: "" });
+        }
+      } catch (error) {
+        toast.error("Error resetting password. Try again later.", toastOptions);
       }
     }
   };
@@ -60,18 +88,42 @@ export default function ResetPassword() {
   return (
     <>
       <FormContainer>
-        <form action="submit" onSubmit={(event) => handleSubmit(event)}>
+        <form onSubmit={isResetting ? handlePasswordSubmit : handleEmailSubmit}>
           <div className="brand">
             <img src={Logo} alt="logo" />
             <h1>snappy</h1>
           </div>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Reset Password</button>
+
+          {!isResetting ? (
+            <>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+              />
+              <button type="submit">Reset Password</button>
+            </>
+          ) : (
+            <>
+              <input
+                type="password"
+                placeholder="New Password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+              />
+              <input
+                type="password"
+                placeholder="Confirm New Password"
+                name="confirmPassword"
+                value={values.confirmPassword}
+                onChange={handleChange}
+              />
+              <button type="submit">Submit</button>
+            </>
+          )}
         </form>
       </FormContainer>
       <ToastContainer />
@@ -85,7 +137,6 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
   align-items: center;
   background-color: #131324;
 
@@ -109,7 +160,7 @@ const FormContainer = styled.div`
     gap: 2rem;
     background-color: #00000076;
     border-radius: 2rem;
-    padding: 3rem 5rem;
+    padding: 5rem;
   }
 
   input {
@@ -119,6 +170,7 @@ const FormContainer = styled.div`
     border-radius: 0.4rem;
     color: white;
     width: 100%;
+    min-width: 250px !important;
     font-size: 1rem;
     &:focus {
       border: 0.1rem solid #997af0;
@@ -137,17 +189,7 @@ const FormContainer = styled.div`
     font-size: 1rem;
     text-transform: uppercase;
     &:hover {
-      background-color: #4e0eff;
-    }
-  }
-
-  span {
-    color: white;
-    text-transform: uppercase;
-    a {
-      color: #4e0eff;
-      text-decoration: none;
-      font-weight: bold;
+      background-color: #997af0;
     }
   }
 `;
