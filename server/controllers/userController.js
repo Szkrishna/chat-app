@@ -60,6 +60,17 @@ module.exports.setAvatar = async (req, res, next) => {
   }
 };
 
+module.exports.fetchAvatars = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const response = await axios.get(`https://api.multiavatar.com/${id}`);
+    res.setHeader("Content-Type", "image/svg+xml"); // Ensure correct response type
+    res.send(response.data);
+  } catch (ex) {
+    next(ex);
+  }
+};
+
 module.exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({ _id: { $ne: req.params.id } }).select([
