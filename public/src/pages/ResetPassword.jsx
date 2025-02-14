@@ -55,7 +55,6 @@ export default function ResetPassword() {
         } else {
           setIsResetting(true);
           // toast.success("Verification link sent to email!", toastOptions);
-          console.log("data ===>", data)
         }
       } catch (error) {
         toast.error("Error sending request. Try again later.", toastOptions);
@@ -155,6 +154,8 @@ const FormContainer = styled.div`
   }
 
   form {
+    min-width: 510px;
+    max-width: 510px;
     display: flex;
     flex-direction: column;
     gap: 2rem;

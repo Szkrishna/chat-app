@@ -9,7 +9,7 @@ import { loginRoute } from "../utils/APIRoutes";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ username: "", password: "" });
+  const [values, setValues] = useState({ email: "", password: "" });
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -29,8 +29,8 @@ export default function Login() {
   };
 
   const validateForm = () => {
-    const { username, password } = values;
-    if (username === "") {
+    const { email, password } = values;
+    if (email === "") {
       toast.error("Email and Password is required.", toastOptions);
       return false;
     } else if (password === "") {
@@ -43,9 +43,9 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      const { username, password } = values;
+      const { email, password } = values;
       const { data } = await axios.post(loginRoute, {
-        username,
+        email,
         password,
       });
       if (data.status === false) {
@@ -70,9 +70,9 @@ export default function Login() {
             <h1>snappy</h1>
           </div>
           <input
-            type="text"
-            placeholder="Username"
-            name="username"
+            type="email"
+            placeholder="email"
+            name="email"
             onChange={(e) => handleChange(e)}
             min="3"
           />
@@ -82,7 +82,7 @@ export default function Login() {
             name="password"
             onChange={(e) => handleChange(e)}
           />
-          <Link to="/reset-password" className="forgotPassword">Forgot Password</Link>
+          <Link to="/resetPassword" className="forgot-password">Forgot Password</Link>
           <button type="submit">Log In</button>
           <span>
             Don't have an account ? <Link to="/register">Create One.</Link>
@@ -103,6 +103,7 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+
   .brand {
     display: flex;
     align-items: center;
@@ -118,12 +119,14 @@ const FormContainer = styled.div`
   }
 
   form {
+    min-width: 510px;
+    max-width: 510px;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     background-color: #00000076;
     border-radius: 2rem;
-    padding: 5rem;
+    padding: 3rem 5rem;
   }
   input {
     background-color: transparent;

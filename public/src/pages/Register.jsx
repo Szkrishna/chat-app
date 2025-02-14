@@ -54,7 +54,6 @@ function Register() {
       toast.error("Email is required.", toastOptions);
       return false;
     }
-
     return true;
   };
 
@@ -63,7 +62,6 @@ function Register() {
 
     if (handleValidation()) {
       const { email, username, password } = values;
-
       try {
         const { data } = await axios.post(registerRoute, {
           username,
@@ -78,11 +76,10 @@ function Register() {
             process.env.REACT_APP_LOCALHOST_KEY,
             JSON.stringify(data.user)
           );
-          navigate("/"); // Navigate on successful registration
+          navigate("/");
         }
       } catch (error) {
         toast.error("Something went wrong. Please try again later.", toastOptions);
-        console.error("Error during registration:", error);
       }
     }
   };
@@ -90,6 +87,7 @@ function Register() {
   const handleChange = (event) => {
     setvalues({ ...values, [event.target.name]: event.target.value });
   }
+
   return (
     <>
       <FormContainer>
@@ -158,6 +156,8 @@ const FormContainer = styled.div`
   }
 
   form {
+    min-width: 510px;
+    max-width: 510px;
     display: flex;
     flex-direction: column;
     gap: 2rem;

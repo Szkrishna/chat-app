@@ -25,13 +25,13 @@ module.exports.register = async (req, res, next) => {
 
 module.exports.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
     if (!user)
-      return res.json({ msg: "Incorrect Username or Password", status: false });
+      return res.json({ msg: "Incorrect email or Password", status: false });
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
-      return res.json({ msg: "Incorrect Username or Password", status: false });
+      return res.json({ msg: "Incorrect email or Password", status: false });
     delete user.password;
     return res.json({ status: true, user });
   } catch (ex) {
@@ -54,9 +54,12 @@ module.exports.verifyEmail = async (req, res, next) => {
 module.exports.resetPassword = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const emailCheck = await User.findOne({ email });
-    if (emailCheck) {
-      const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.findOne({ email });
+    const isSimilarPassword = await bcrypt.compare(password, user.password);
+    if (isSimilarPassword)
+      return res.json({ msg: "New password cannot be similar to old password", status: false });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    if (user) {
       const user = await User.findOneAndUpdate(
         { email }, 
         { $set: { password: hashedPassword } },
