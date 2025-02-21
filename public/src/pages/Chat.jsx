@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import { io } from "socket.io-client";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +24,6 @@ export default function Chat() {
         setCurrentUser(user);
       }
     };
-
     checkUser();
   }, [navigate]); 
   
@@ -34,9 +34,24 @@ export default function Chat() {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    const checkCurrentUser = async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+          setContacts(data.data);
+        } else {
+          navigate("/setAvatar");
+        }
+      }
+    }
+    checkCurrentUser();
+  }, []);
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
+  
   return (
     <>
       <Container>
@@ -57,6 +72,7 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+  
   .container {
     height: 85vh;
     width: 85vw;
