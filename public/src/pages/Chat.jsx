@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts";
+import Welcome from "../components/Welcome";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -59,6 +60,11 @@ export default function Chat() {
       <Container>
         <div className="container">
           <Contacts contacts={contacts} changeChat={handleChatChange} />
+          {currentChat === undefined ? (
+            <Welcome />
+          ) : (
+            ""
+          )}
         </div>
       </Container>
     </>
@@ -74,12 +80,14 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+
   .container {
     height: 85vh;
     width: 85vw;
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;
+
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
     }
