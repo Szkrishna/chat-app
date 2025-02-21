@@ -76,7 +76,7 @@ function Register() {
             process.env.REACT_APP_LOCALHOST_KEY,
             JSON.stringify(data.user)
           );
-          navigate("/");
+          navigate("/setAvatar");
         }
       } catch (error) {
         toast.error("Something went wrong. Please try again later.", toastOptions);

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Buffer } from "buffer";
+// import { Buffer } from "buffer";
 import loader from "../assets/loader.gif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { setAvatarRoute } from "../utils/APIRoutes";
 export default function SetAvatar() {
-    const api = `https://api.multiavatar.com/4645646`;
+    // const api = `http://api.multiavatar.com/4645646`;
+    const api = "https://api.dicebear.com/8.x/adventurer/svg?seed=";
     const navigate = useNavigate();
     const [avatars, setAvatars] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -56,21 +57,33 @@ export default function SetAvatar() {
         }
     };
 
+    // useEffect(() => {
+    //     const fetchAvatars = async () => {
+    //         const data = [];
+    //         for (let i = 0; i < 4; i++) {
+    //             const image = await axios.get(
+    //                 `${api}/${Math.round(Math.random() * 1000)}`
+    //             );
+    //             const buffer = Buffer.from(image.data);
+    //             data.push(buffer.toString("base64"));
+    //         }
+    //         setAvatars(data);
+    //         setIsLoading(false);
+    //     };
+    //     fetchAvatars();
+    // }, []);
+
     useEffect(() => {
         const fetchAvatars = async () => {
             const data = [];
-            for (let i = 0; i < 4; i++) {
-                const image = await axios.get(
-                    `${api}/${Math.round(Math.random() * 1000)}`
-                );
-                const buffer = Buffer.from(image.data); // Use `Buffer.from` for Node.js Buffer
-                data.push(buffer.toString("base64"));
+            for (let i = 0; i < 5; i++) {
+                const randomName = Math.random().toString(36).substring(7);
+                data.push(`${api}${randomName}`);
             }
             setAvatars(data);
             setIsLoading(false);
         };
         fetchAvatars();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -85,21 +98,13 @@ export default function SetAvatar() {
                         <h1>Pick an Avatar as your profile picture</h1>
                     </div>
                     <div className="avatars">
-                        {avatars.map((avatar, index) => {
-                            return (
-                                <div
-                                    className={`avatar ${selectedAvatar === index ? "selected" : ""
-                                        }`}
-                                >
-                                    <img
-                                        src={`data:image/svg+xml;base64,${avatar}`}
-                                        alt="avatar"
-                                        key={avatar}
-                                        onClick={() => setSelectedAvatar(index)}
-                                    />
-                                </div>
-                            );
-                        })}
+                        {avatars.map((avatar, index) => (
+                            <div key={index}
+                                className={`avatar ${selectedAvatar === index ? "selected" : ""}`}
+                                onClick={() => setSelectedAvatar(index)}>
+                                <img src={avatar} alt="avatar" />
+                            </div>
+                        ))}
                     </div>
                     <button onClick={setProfilePicture} className="submit-btn">
                         Set as Profile Picture
