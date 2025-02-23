@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ export default function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            ""
+            <ChatContainer />
           )}
         </div>
       </Container>
