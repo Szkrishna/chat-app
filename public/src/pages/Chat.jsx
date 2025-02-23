@@ -50,7 +50,7 @@ export default function Chat() {
       }
     }
     checkCurrentUser();
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
@@ -64,7 +64,7 @@ export default function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer />
+            <ChatContainer currentChat={currentChat} />
           )}
         </div>
       </Container>
