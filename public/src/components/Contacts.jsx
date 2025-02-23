@@ -44,7 +44,7 @@ export default function Contacts({ contacts, changeChat }) {
                     {contact.avatarImage ? (
                       <img src={contact.avatarImage} alt="avatar" />
                     ) : (
-                      <img src={default_avatar} alt="avatar" style={{borderRadius: "50%", height: "2rem", margin: "0.5rem"}} />
+                      <img className="default-avatar" src={default_avatar} alt="avatar" />
                     )}
                   </div>
 
@@ -57,11 +57,9 @@ export default function Contacts({ contacts, changeChat }) {
           </div>
 
           <div className="current-user">
-
             <div className="avatar">
               <img src={currentUserImage} alt="avatar" />
             </div>
-
 
             <div className="username">
               <h2>{currentUserName}</h2>
@@ -86,6 +84,7 @@ const Container = styled.div`
     img {
       height: 2rem;
     }
+
     h3 {
       color: white;
       text-transform: uppercase;
@@ -122,6 +121,12 @@ const Container = styled.div`
       .avatar {
         img {
           height: 3rem;
+        }
+
+        .default-avatar {
+          border-radius: 50%; 
+          height: 2rem;
+          margin: 0.5rem;
         }
       }
 

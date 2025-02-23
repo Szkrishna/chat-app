@@ -56,9 +56,9 @@ export default function ChatContainer({ currentChat, socket }) {
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
-            { currentChat.avatarImage 
+            {currentChat.avatarImage
               ? <img src={currentChat.avatarImage} alt="avatar" />
-              : <img src={default_avatar} alt="avatar" />
+              : <img className="default-avatar" src={default_avatar} alt="avatar" />
             }
           </div>
           <div className="username">
@@ -105,6 +105,13 @@ const Container = styled.div`
           height: 3rem;
         }
       }
+
+      .default-avatar {
+        border-radius: 50%; 
+        height: 2rem;
+        margin: 0.5rem;
+      }
+          
       .username {
         h3 {
           color: white;
@@ -112,6 +119,7 @@ const Container = styled.div`
       }
     }
   }
+
   .chat-messages {
     padding: 1rem 2rem;
     display: flex;
@@ -126,6 +134,7 @@ const Container = styled.div`
         border-radius: 1rem;
       }
     }
+
     .message {
       display: flex;
       align-items: center;
@@ -141,12 +150,14 @@ const Container = styled.div`
         }
       }
     }
+
     .sended {
       justify-content: flex-end;
       .content {
         background-color: #4f04ff21;
       }
     }
+
     .recieved {
       justify-content: flex-start;
       .content {
