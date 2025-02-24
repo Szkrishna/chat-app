@@ -11,6 +11,7 @@ const router = require("express").Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.post("/logout", logout);
 router.post("/verifyemail", verifyEmail);
 router.post("/resetpassword", resetPassword);
 router.post("/setavatar/:id", setAvatar);
