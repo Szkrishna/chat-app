@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { recieveMessageRoute } from "../utils/APIRoutes";
 import default_avatar from "../assets/default_avatar.png";
+import Logout from "./Logout";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -65,6 +66,7 @@ export default function ChatContainer({ currentChat, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
+        <Logout />
       </div>
       <div className="chat-messages">
         {messages.map((message) => {
