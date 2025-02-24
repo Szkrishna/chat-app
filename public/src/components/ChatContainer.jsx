@@ -12,6 +12,10 @@ export default function ChatContainer({ currentChat, socket }) {
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
+  const handleSendMsg = async (msg) => {
+
+  };
+
   useEffect(() => {
     const message = async () => {
       const data = await JSON.parse(
@@ -82,7 +86,7 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
-      <ChatInput />
+      <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
   );
 }
