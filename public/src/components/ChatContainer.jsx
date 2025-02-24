@@ -5,6 +5,7 @@ import axios from "axios";
 import { recieveMessageRoute } from "../utils/APIRoutes";
 import default_avatar from "../assets/default_avatar.png";
 import Logout from "./Logout";
+import ChatInput from "./ChatInput";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -81,6 +82,7 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
+      <ChatInput />
     </Container>
   );
 }
@@ -110,8 +112,8 @@ const Container = styled.div`
 
       .default-avatar {
         border-radius: 50%; 
-        height: 2rem;
-        margin: 0.5rem;
+        height: 2rem !important;
+        margin: 0.5rem !important;
       }
           
       .username {
