@@ -120,6 +120,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    background-color: #000;
     .user-details {
       display: flex;
       align-items: center;

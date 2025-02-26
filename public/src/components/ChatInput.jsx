@@ -10,21 +10,7 @@ export default function ChatInput({ handleSendMsg }) {
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
-
-  // const handleEmojiClick = (emojiObject) => {
-  //   let message = msg;
-  //   message += emojiObject.emoji;
-  //   setMsg(message);
-  // };
-
-  // const sendChat = (event) => {
-  //   event.preventDefault();
-  //   if (msg.length > 0) {
-  //     handleSendMsg(msg);
-  //     setMsg("");
-  //   }
-  // };
-
+  
   const handleEmojiClick = (emojiObject) => {
     setMsg((prevMsg) => prevMsg + emojiObject.emoji);
   };
