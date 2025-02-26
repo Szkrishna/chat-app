@@ -76,7 +76,8 @@ export default function ChatContainer({ currentChat, socket }) {
   }, [messages]);
 
   const toggleButtons = (msg) => {
-    setOpenMenuIndex(openMenuIndex === msg ? null : msg);
+    setOpenMenuIndex(msg ? 0 : 1);
+    console.log("openMenuIndex", openMenuIndex);
   };
 
   return (
@@ -105,14 +106,16 @@ export default function ChatContainer({ currentChat, socket }) {
                 </div>
                 {message.fromSelf ?
                   <span className="edit-button">
-                    <MdMoreVert size={24} onClick={()=>toggleButtons(message.message)} />
-
-                    {openMenuIndex === message.message && (
-                      <div className="popup-buttons">
-                        <button>Delete Chat</button>
-                        <button>Edit Chat</button>
-                      </div>
-                    )}
+                    <span class="dropdown">
+                      <MdMoreVert size={24} onClick={()=>toggleButtons(message.message)} />
+                      <label>
+                        <input type="checkbox" />
+                        <ul>
+                          <li>Delete Message</li>
+                          <li>Edit Message</li>
+                        </ul>
+                      </label>
+                    </span>
                   </span> : ""
                 }
               </div>
@@ -205,6 +208,103 @@ const Container = styled.div`
         color: #fff;
         cursor: pointer;
         margin-left: 0.25rem;
+
+        .dropdown {
+          position: relative;
+          display: inline-block;
+          font-size: 14px;
+        }
+
+        .dropdown:hover{
+          cursor: pointer;
+        }
+
+        .dropdown > a, .dropdown > button {
+          font-size: 14px;
+          background-color: white;
+          border: 1px solid #ccc;
+          padding: 6px 20px 6px 10px;
+          border-radius: 4px;
+          display: inline-block;
+          color: black;
+          text-decoration: none;
+        }
+
+        .dropdown > a:before, .dropdown > button:before {
+          position: absolute;
+          right: 7px;
+          top: 12px;
+          content: ' ';
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-top: 5px solid black;
+        }
+
+        .dropdown input[type=checkbox] {
+          position: absolute;
+          display: block;
+          top: 0rem;
+          left: 0rem;
+          width: 100%;
+          height: 100%;
+          margin: 0rem;
+          opacity: 0;
+        }
+
+        .dropdown input[type=checkbox]:checked {
+          position: fixed;
+          z-index:+0;
+          top: 0rem; left: 0rem; 
+          right: 0rem; bottom: 0rem;
+        }
+
+        .dropdown ul {
+          position: absolute;
+          top: 2rem;
+          border-radius: 0.25rem;
+          right: 0.5rem;
+          list-style: none;
+          padding: 0.25rem;
+          display: none;
+          background-color: #3a374d;
+          box-shadow: 0 3px 6px rgba(0,0,0,.175);
+        }
+
+        .dropdown input[type=checkbox]:checked + ul {
+          display: block;
+        }
+
+        .dropdown ul li {
+          display: block;
+          padding: 0.5rem 1rem;
+          white-space: nowrap;
+          border-radius: 0.25rem;
+          background-color: #9a86f3;
+          margin: 0.75rem;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+        }
+
+        .dropdown ul li:hover {
+          background-color:rgb(140, 115, 252);
+          cursor: pointer;
+        }
+
+        .dropdown ul li a {
+          text-decoration: none;
+          display: block;
+          color: black
+        }
+
+        .dropdown .divider {
+          height: 1px;
+          margin: 9px 0;
+          overflow: hidden;
+          background-color: #e5e5e5;
+          font-size: 1px;
+          padding: 0;
+        }
       }
     }
 
