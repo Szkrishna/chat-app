@@ -25,7 +25,7 @@ function Register() {
   });
 
   useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+    if (localStorage.getItem("User")) {
       navigate("/");
     }
   }, [navigate]);
@@ -73,7 +73,7 @@ function Register() {
           toast.error(data.msg, toastOptions);
         } else if (data.status === true) {
           localStorage.setItem(
-            process.env.REACT_APP_LOCALHOST_KEY,
+            "User",
             JSON.stringify(data.user)
           );
           navigate("/setAvatar");

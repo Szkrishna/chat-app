@@ -11,7 +11,7 @@ export default function Contacts({ contacts, changeChat }) {
   useEffect(() => {
     const checkCurrentUser = async () => {
       const data = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        localStorage.getItem("User")
       );
       setCurrentUserName(data.username);
       setCurrentUserImage(data.avatarImage);
@@ -22,7 +22,24 @@ export default function Contacts({ contacts, changeChat }) {
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
+    localStorage.setItem("selectedChatId", contact._id);
   };
+
+   useEffect(() => {
+    if (contacts.length > 0) {
+      const storedChatId = localStorage.getItem("selectedChatId");
+      if (storedChatId) {
+        const selectedContactIndex = contacts.findIndex(
+          (contact) => contact._id === storedChatId
+        );
+
+        if (selectedContactIndex !== -1) {
+          setCurrentSelected(selectedContactIndex);
+          changeChat(contacts[selectedContactIndex]);
+        }
+      }
+    }
+  }, [contacts, changeChat]);
 
   return (
     <>
