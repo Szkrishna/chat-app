@@ -35,7 +35,7 @@ const Container = styled.div`
   .logout-container {
     display: flex;
     justify-content: end;
-    padding: 1rem 2rem;
+    padding: 2rem;
   }
   .welcome {
     display: flex;

@@ -6,6 +6,7 @@ import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 import default_avatar from "../assets/default_avatar.png";
 import Logout from "./Logout";
 import ChatInput from "./ChatInput";
+import { MdMoreVert } from "react-icons/md";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -94,9 +95,10 @@ export default function ChatContainer({ currentChat, socket }) {
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div className={`message ${message.fromSelf ? "sended" : "recieved"}`} >
-                <div className="content ">
+                <div className="content">
                   <p>{message.message}</p>
                 </div>
+                { message.fromSelf ? <span className="edit-button"><MdMoreVert size={24} /></span> : ""}
               </div>
             </div>
           );
@@ -120,7 +122,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-    background-color: #000;
+    background-color: #0d0d30;
     .user-details {
       display: flex;
       align-items: center;
@@ -173,6 +175,12 @@ const Container = styled.div`
         @media screen and (min-width: 720px) and (max-width: 1080px) {
           max-width: 70%;
         }
+      }
+
+      .edit-button {
+        color: #fff;
+        cursor: pointer;
+        margin-left: 0.25rem;
       }
     }
 
