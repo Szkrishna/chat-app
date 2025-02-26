@@ -30,7 +30,11 @@ export default function ChatInput({ handleSendMsg }) {
       <div className="button-container">
         <div className="emoji">
           <BsEmojiSmileFill onClick={handleEmojiPickerhideShow} />
-          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          {showEmojiPicker && (
+            <EmojiPickerWrapper>
+              <Picker onEmojiClick={handleEmojiClick} />
+            </EmojiPickerWrapper>
+          )}
         </div>
       </div>
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
@@ -71,8 +75,8 @@ const Container = styled.div`
         cursor: pointer;
       }
       .emoji-picker-react {
-        position: absolute;
-        top: -350px;
+        position: absolute !important;
+        top: 350px !important;
         background-color: #080420;
         box-shadow: 0 5px 10px #9a86f3;
         border-color: #9a86f3;
@@ -141,4 +145,14 @@ const Container = styled.div`
       }
     }
   }
+`;
+
+const EmojiPickerWrapper = styled.div`
+  position: absolute !important;
+  top: -460px !important; /* Adjust as needed */
+  left: -8px !important;
+  border-radius: 16px !important;
+  background-color: #080420 !important;
+  border-color: #9a86f3 !important;
+  z-index: 1000 !important;
 `;
