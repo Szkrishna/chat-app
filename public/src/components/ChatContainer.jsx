@@ -107,12 +107,12 @@ export default function ChatContainer({ currentChat, socket }) {
                 {message.fromSelf ?
                   <span className="edit-button">
                     <span class="dropdown">
-                      <MdMoreVert size={24} onClick={()=>toggleButtons(message.message)} />
+                      <MdMoreVert size={24} onClick={()=>toggleButtons(message.message)} /> 
                       <label>
                         <input type="checkbox" />
                         <ul>
-                          <li>Delete Message</li>
-                          <li>Edit Message</li>
+                          <li>Edit</li>
+                          <li>Delete</li>
                         </ul>
                       </label>
                     </span>
@@ -141,7 +141,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-    background-color: #0d0d30;
+    background-color: #0013fc;
     .user-details {
       display: flex;
       align-items: center;
