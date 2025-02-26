@@ -12,6 +12,7 @@ export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
 
   const handleSendMsg = async (msg) => {
     const data = await JSON.parse(
@@ -74,6 +75,10 @@ export default function ChatContainer({ currentChat, socket }) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const toggleButtons = (msg) => {
+    setOpenMenuIndex(openMenuIndex === msg ? null : msg);
+  };
+
   return (
     <Container>
       <div className="chat-header">
@@ -96,9 +101,20 @@ export default function ChatContainer({ currentChat, socket }) {
             <div ref={scrollRef} key={uuidv4()}>
               <div className={`message ${message.fromSelf ? "sended" : "recieved"}`} >
                 <div className="content">
-                  <p>{message.message}</p>
+                  <p>{message.message !== undefined ? message.message : ""}</p>
                 </div>
-                { message.fromSelf ? <span className="edit-button"><MdMoreVert size={24} /></span> : ""}
+                {message.fromSelf ?
+                  <span className="edit-button">
+                    <MdMoreVert size={24} onClick={()=>toggleButtons(message.message)} />
+
+                    {openMenuIndex === message.message && (
+                      <div className="popup-buttons">
+                        <button>Delete Chat</button>
+                        <button>Edit Chat</button>
+                      </div>
+                    )}
+                  </span> : ""
+                }
               </div>
             </div>
           );
@@ -176,18 +192,19 @@ const Container = styled.div`
           max-width: 70%;
         }
       }
+    }
+
+    .sended {
+      justify-content: flex-end;
+
+      .content {
+        background-color: #4f04ff21;
+      }
 
       .edit-button {
         color: #fff;
         cursor: pointer;
         margin-left: 0.25rem;
-      }
-    }
-
-    .sended {
-      justify-content: flex-end;
-      .content {
-        background-color: #4f04ff21;
       }
     }
 
