@@ -1,6 +1,7 @@
 const {
   register,
   login,
+  logout,
   verifyEmail,
   resetPassword,
   setAvatar,
