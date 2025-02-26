@@ -11,19 +11,32 @@ export default function ChatInput({ handleSendMsg }) {
     setShowEmojiPicker(!showEmojiPicker);
   };
 
-  const handleEmojiClick = (event, emojiObject) => {
-    let message = msg;
-    message += emojiObject.emoji;
-    setMsg(message);
-  };
+  // const handleEmojiClick = (emojiObject) => {
+  //   let message = msg;
+  //   message += emojiObject.emoji;
+  //   setMsg(message);
+  // };
 
+  // const sendChat = (event) => {
+  //   event.preventDefault();
+  //   if (msg.length > 0) {
+  //     handleSendMsg(msg);
+  //     setMsg("");
+  //   }
+  // };
+
+  const handleEmojiClick = (emojiObject) => {
+    setMsg((prevMsg) => prevMsg + emojiObject.emoji);
+  };
+  
   const sendChat = (event) => {
     event.preventDefault();
-    if (msg.length > 0) {
+    if (msg.trim().length > 0) {
       handleSendMsg(msg);
       setMsg("");
     }
   };
+  
 
   return (
     <Container>
